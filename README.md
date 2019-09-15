@@ -1,2 +1,2 @@
-# CS272
-My computer CS272 lab assignments
+# CS-272
+My computer CS-272 lab assignments
