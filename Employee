@@ -1,0 +1,271 @@
+// CS 272
+// Lab 2: Employee.java
+// Eduard Salugsugan
+// 9/3/2019
+// Purpose: A class Employee to get the Employee's name, number, age, state, zip code, advisors.
+
+import java.util.Arrays;
+
+public class Employee {
+	
+	//variables for object employee
+	String Name;
+	int Num;
+	int Age;
+	String State;
+	int Zip;
+    int[] Advisors;
+	
+	//default constructor for object employee
+	public Employee() {
+		Name = null;
+		Num = 0;
+		Age = 0;
+		State = null;
+		Zip = 0;
+		Advisors = null;	
+	}//end of default constructor for Employee
+	
+	//constructor for object employee
+	public Employee(Object obj) {
+		if (obj instanceof Employee && obj != null) {
+			Name = getName();
+			Num = getNum();
+			Age = getAge();
+			State = getState();
+			Zip = getZip();
+			Advisors = getAdvisors();
+		}
+		else {
+			throw new IllegalArgumentException("The obj is null or not an instance of Employee class");
+		}
+	}//end of constructor for Employee
+	
+	//method to get the Employee Name
+	public String getName() {
+		return Name;
+	}//end of method getName
+	
+	//method to get the Employee Number
+	public int getNum() {
+		return Num;
+	}//end of method getNum
+	
+	//method to get the Employee Age
+	public int getAge() {
+		return Age;
+	}//end of method getAge
+	
+	//method to get the Employee State
+	public String getState() {
+		return State;
+	}//end of method getState
+	
+	//method to get the Employee Zip
+	public int getZip() {
+		return Zip;
+	}//end of method getZip
+	
+	//method to get the Employee Advisors
+	public int[] getAdvisors() {
+		return Advisors;
+	}//end of method getAdvisors
+	
+	//method to set the Employee Name
+	public void setName(String Name) {
+		this.Name = Name;
+	}//end of method setName
+
+	//method to set the Employee Number
+	public void setNum(int Num) {
+		this.Num = Num;
+	}//end of method setNum
+	
+	//method to set the Employee Age
+	public void setAge(int Age) {
+		this.Age = Age;
+	}//end of method setAge
+	
+	//method to set the Employee State
+	public void setState(String State) {
+		this.State = State;
+	}//end of method setState
+	
+	//method to set the Employee Zip
+	public void setZip(int Zip) {
+		this.Zip = Zip;
+	}//end of method setZip
+	
+	//method to set the Employee Advisors
+	public void setAdvisors(int[] eAdvisors) {
+		if (eAdvisors.length > 3) {
+			throw new IllegalArgumentException("You are limited to 3 advisors");
+		}
+		else {
+			Advisors = new int[eAdvisors.length];
+			this.Advisors = eAdvisors;
+		}
+	}//end of method setAdvisors
+	
+	//prints all the variables from name, number, age, state, zip
+	public String toString() {
+		// temporary array
+		int[] array = new int[Advisors.length];
+		for (int i = 0; i < Advisors.length; i++) {
+			array[i] = Advisors[i];
+		}
+		// if there is 0 advisor this prints
+		if (array.length == 0) {
+			return "Employee Name: " + Name + "\nEmployee Number: " + Num + "\nEmployee Age: " + Age + "\nEmployee State: " + State + "\nEmployee Zip: " + Zip +"\nEmployee Advisors: No Advisors";  
+		}
+		// if there is 1 advisor this prints
+		else if (array.length == 1) {
+			return "Employee Name: " + Name + "\nEmployee Number: " + Num + "\nEmployee Age: " + Age + "\nEmployee State: " + State + "\nEmployee Zip: " + Zip +"\nEmployee Advisors: " + array[0];  
+		}
+		// if there is 2 advisor this prints
+		else if (array.length == 2) {
+			return "Employee Name: " + Name + "\nEmployee Number: " + Num + "\nEmployee Age: " + Age + "\nEmployee State: " + State + "\nEmployee Zip: " + Zip +"\nEmployee Advisors: " + array[0] + ", " + array[1];  
+		}
+		// if there is 3 advisors this prints
+		else {
+			return "Employee Name: " + Name + "\nEmployee Number: " + Num + "\nEmployee Age: " + Age + "\nEmployee State: " + State + "\nEmployee Zip: " + Zip +"\nEmployee Advisors: " + array[0] + ", " + array[1] + ", " + array[2];  
+		}
+	}//end of method toString
+	
+	//method  to check if a Employee Num is the same as another
+	public boolean equals(Object obj) {
+		// if statement to check if the obj is an instance of Employee and to also check if its not null
+		if (obj instanceof Employee && obj != null) {
+			Employee e1 = (Employee) obj;
+			// if statement to check if obj num is the same with the employee num
+			if (e1.Num == getNum()) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			return false;
+		}
+	}//end of method equals
+	
+	// a static int[] method to get all the distinct advisors of 2 Employee objects
+	public static int[] getAllAdvisors(Employee e1, Employee e2) {
+		// temp array
+		int[] array = {0,0,0,0,0,0};
+		// the returning array for the user
+		int [] answer = null;
+		// counter
+		int count;
+		if (e1 != null && e2 != null) {
+
+			int[] a1 = e1.Advisors;
+			int[] a2 = e2.Advisors;
+			
+			// for loop to store Employee e1 to int[]array
+			for ( int i = 0 ; i < a1.length ; i++ )
+				array[i] = a1[i];
+
+			count = a1.length;
+			boolean condition;
+			// for loop to check if Employee e2 is repeated and if not, it stores it in the int[] array
+			for (int i = 0 ; i < a2.length ; i++ ) {
+				condition = true;
+				for (int n = 0; n < a1.length ; n++ ) {
+					if(a1[n] == a2[i]) {
+						condition = false; // the condition is then equal false and breaks
+						break;
+					}
+				}
+				if(condition == true) {// if it finds the match it will execute this if statement if it doesnt then it skips it
+					array[count++] = a2[i];
+				}
+			}
+			answer = Arrays.copyOfRange(array, 0, count);
+		}
+		Arrays.sort(answer);
+		return answer;
+	}
+	
+	// The main function for class employee
+	public static void main (String[] args) {
+		
+		//Makes new object employee
+		Employee e1 = new Employee();
+		Employee e2 = new Employee();
+		Employee e3 = new Employee();
+		
+		//sets and gets the name, no, age, state, zip for object employee e1
+		System.out.println("Employee class set and get method tester");
+		System.out.println("----------------------------------------");
+		e1.setName("Eduard Salugsugan");
+		System.out.println("Employee Name Test: " + e1.getName());
+		e1.setNum(800674235);
+		System.out.println("Employee Number Test: " + e1.getNum());	
+		e1.setAge(21);
+		System.out.println("Employee Age Test: " + e1.getAge());
+		e1.setState("NM");
+		System.out.println("Employee State Test: " + e1.getState());
+		e1.setZip(88001);
+		System.out.println("Employee Zip Code Test: " + e1.getZip());
+
+//		//Test if you have 1 advisor
+		int[] a1 = new int[] {1};;
+		e1.setAdvisors(a1);
+		System.out.print("Employee Advisor Tester with 1 advisors: ");
+		for (int i = 0; i < a1.length; i++) {
+			a1[i] = e1.getAdvisors()[i];
+		}
+		System.out.println(Arrays.toString(a1));
+	
+//		//Test if you have 2 advisors
+		int[] a2 = new int[] {1,2};
+		e1.setAdvisors(a2);
+		System.out.print("Employee Advisor Tester with 2 advisors: ");
+		for (int i = 0; i < a2.length; i++) {
+			a2[i] = e1.getAdvisors()[i];
+		}
+		System.out.println(Arrays.toString(a2));
+
+//		//Test if you have 3 advisors
+		int[] a3 = new int[] {1,2,3};
+		e1.setAdvisors(a3);
+		System.out.print("Employee Advisor Tester with 3 advisors: ");
+		for (int i = 0; i < a3.length; i++) {
+			a3[i] = e1.getAdvisors()[i];
+		}
+		System.out.println(Arrays.toString(a3));
+		
+		a3 = new int[] {1,2,3};
+		e1.setAdvisors(a3);
+		System.out.println();
+		
+		//prints all information of object employee e1
+		System.out.println("toString method tester");
+		System.out.println("----------------------");
+		System.out.println(e1.toString());
+		System.out.println();
+		
+		// test for equals method
+		e2.setNum(800674235);
+		e3.setNum(800642342);
+		System.out.println("Test to see if equals method works for both true and false");
+		System.out.println("----------------------------------------------------------");
+		System.out.println("True or False? are Employee e1 and e2 the same: " + e1.equals(e2));
+		System.out.println("True or False? are Employee e1 and e3 the same: " + e1.equals(e3));
+		System.out.println();
+		
+		// test for getAllAdvisors method
+	    a1 = new int[] {11,42,33};
+		e1.setAdvisors(a1);
+		a2 = new int[] {56,25,42};
+		e2.setAdvisors(a2);
+		System.out.println("getAllAdvisors tester");
+		System.out.println("---------------------");
+		System.out.println("First Array: " + Arrays.toString(a1));
+		System.out.println("Second Array: " + Arrays.toString(a2));
+		System.out.println("1st and 2nd array combined without repeats: " + Arrays.toString(getAllAdvisors(e1,e2)));
+	}// end of main	
+	
+}// end of class Employee
